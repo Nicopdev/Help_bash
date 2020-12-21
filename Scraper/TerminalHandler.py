@@ -112,60 +112,6 @@ class TerminalHandler:
                         else:
                             handlers[0](screen)
     
-    def show_menu_delete_selected(self, titles, screen, secondary, *handlers):
-        should_run = True
-        selection = None
-        self.current_index = 0        
-        if secondary:
-            titles.append("BACK")
-        
-        while should_run:
-            _ = self.update_dims(screen)
-            # Print menu
-            screen.clear()
-            for inx, row in enumerate(titles):
-                x = self.w//2 - len(max(titles, key=len))//2
-                y = self.h//2 - len(titles)//2 + inx
-                
-                if self.colors[inx] == 2:
-                    if inx == self.current_index:
-                        screen.attron(cr.color_pair(3))
-                        screen.addstr(y, x, " " + self.newtext[inx] + " ")
-                        screen.attroff(cr.color_pair(3))
-                    else:
-                        screen.attron(cr.color_pair(2))
-                        screen.addstr(y, x, self.newtext[inx])
-                        screen.attroff(cr.color_pair(2))
-                else:
-                    if inx == self.current_index:
-                        screen.attron(cr.color_pair(1))
-                        screen.addstr(y, x, " " + row + " ")
-                        screen.attroff(cr.color_pair(1))
-                    else:
-                        screen.addstr(y, x, row)
-            screen.refresh()
-            # Menu printed
-            
-            # Wait for input
-            selection = self.wait_for_input(screen, len(titles))
-            
-            if selection != None:
-                if selection == len(titles) - 1:
-                    self.current_index = 0
-                    # self.reset_colors()
-                    break
-                else:                    
-                    try:
-                        handlers[0](screen, selection)
-                    except:
-                        handlers[0](screen)
-                    del titles[selection]
-                    if len(titles) <= 2:
-                        # self.reset_colors()
-                        
-                        break
-
-    
     def get_input(self, screen, message):
         
         answer = self.raw_input(screen, message)        
