@@ -96,5 +96,6 @@ def main(screen):
     _ = Loader(screen)
 
 if __name__ == '__main__':
+    environ["TERM"] = 'xterm-256color'
     environ['TERMINFO'] = '/bin/bash'
     cr.wrapper(main)
